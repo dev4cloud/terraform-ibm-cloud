@@ -15,8 +15,12 @@ resource "ibm_compute_vm_instance" "vm1" {
   tags = ["group:webserver"]
 }
 
+resource "random_id" "lbass_id" {
+  byte_length = 8
+}
+
 resource "ibm_lbaas" "lbaas" {
-  name        = "myloadbalancer"
+  name        = "myloadbalancer-${random_id.lbass_id.hex}"
   description = "lbaas example"
   subnets     = ["${ibm_compute_vm_instance.vm1.*.private_subnet_id[0]}"]
 

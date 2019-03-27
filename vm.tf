@@ -12,6 +12,7 @@ resource "ibm_compute_vm_instance" "vm1" {
   disks = [25]
   local_disk = false
   ssh_key_ids = ["${ibm_compute_ssh_key.ssh_public_key_for_vm.id}"]
+  public_security_group_ids  = ["${ibm_security_group.sg1_public.id}"]
   tags = ["group:webserver"]
 }
 
@@ -41,6 +42,7 @@ resource "ibm_lbaas_server_instance_attachment" "lbaas_member" {
   private_ip_address = "${element(ibm_compute_vm_instance.vm1.*.ipv4_address_private,count.index)}"
   weight             = 40
   lbaas_id           = "${ibm_lbaas.lbaas.id}"
+  depends_on         = ["ibm_lbaas.lbaas"]
 }
 
 resource "ibm_lbaas_health_monitor" "lbaas_hm" {
@@ -49,4 +51,5 @@ resource "ibm_lbaas_health_monitor" "lbaas_hm" {
   timeout = 3
   lbaas_id = "${ibm_lbaas.lbaas.id}"
   monitor_id = "${ibm_lbaas.lbaas.health_monitors.0.monitor_id}"
+  depends_on = ["ibm_lbaas_server_instance_attachment.lbaas_member"]
 }

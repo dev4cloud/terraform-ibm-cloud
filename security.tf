@@ -1,11 +1,15 @@
 resource "ibm_compute_ssh_key" "ssh_public_key_for_vm" {
  label = "mysshkey"
  notes = "my generated ssh key"
- public_key = "KEY"
+ public_key = "<PUT YOUR KEY HERE>"
+}
+
+resource "random_id" "sg_id" {
+  byte_length = 8
 }
 
 resource "ibm_security_group" "sg1_public" {
-    name = "sg1"
+    name = "sg1-${random_id.sg_id.hex}"
     description = "allow ssh and http traffic"
 }
 

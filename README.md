@@ -7,7 +7,7 @@ Create ssh key first
 print public key
 `cat ~/.ssh/id_rsa.pub`
 
-copy this content into the sshkey.tf file into the public_key variable
+copy this content into the security.tf file into the public_key variable
 
 Setup terraform to load pluings
 

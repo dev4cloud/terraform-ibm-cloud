@@ -4,7 +4,7 @@ resource "ibm_compute_vm_instance" "vm1" {
   domain = "example.com"
   os_reference_code = "UBUNTU_18_64"
   datacenter = "fra02"
-  network_speed = 10
+  network_speed = 1000
   hourly_billing = true
   private_network_only = false
   cores = 1
